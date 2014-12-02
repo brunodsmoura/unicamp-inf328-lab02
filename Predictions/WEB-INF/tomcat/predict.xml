@@ -1,0 +1,38 @@
+﻿<!-- Example of a Tomcat configuration file for this application. -->
+
+<!-- The 'YOUR_MYSQL_...' items refer to a MySQL account. The given values are phony. Please change them. -->
+
+<!-- Assumes MySQL is running on the default port 3306. Please change if necessary. -->
+
+<!-- Maps a URL context to a location on your file system: -->
+<Context docBase="C:/Temp/INF328/workspace/Predictions" reloadable="true">
+
+ <!-- How Tomcat should make a Datasource, for the exclusive use of the application: -->
+ <Resource 
+   name="jdbc/predict" 
+   auth="Container" 
+   type="javax.sql.DataSource" 
+   username="pred12"
+   password="pred12"
+   driverClassName="com.mysql.jdbc.Driver"
+   url="jdbc:mysql://54.173.112.61:3306/pred12?useServerPrepStmts=false"
+   maxActive="10"
+   maxIdle="5"
+ />
+
+ <!-- How Tomcat should look for user names and passwords, when confirming user credentials during login: -->
+ <Realm 
+  className="org.apache.catalina.realm.JDBCRealm" 
+  connectionURL="jdbc:mysql://54.173.112.61:3306/pred12"
+  digest="SHA-1"
+  driverName="com.mysql.jdbc.Driver"
+  roleNameCol="Role"
+  userCredCol="Password" 
+  userNameCol="LoginName" 
+  userRoleTable="UserRole" 
+  userTable="Users" 
+  connectionName="pred12"
+  connectionPassword="pred12"
+  debug="99"
+ />
+</Context>
