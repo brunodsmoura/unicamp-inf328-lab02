@@ -1,5 +1,7 @@
 package hirondelle.predict.pub.register;
 
+import hirondelle.predict.pub.register.observer.MarketingObserver;
+import hirondelle.predict.pub.register.observer.NewRegisterObservable;
 import hirondelle.predict.util.MailFacade;
 import hirondelle.predict.util.exception.MailException;
 import hirondelle.web4j.action.ActionTemplateShowAndApply;
@@ -30,6 +32,9 @@ public final class RegisterAction extends ActionTemplateShowAndApply {
 	public RegisterAction(RequestParser aRequestParser) {
 		super(FORWARD, REDIRECT, aRequestParser);
 		createSessionAndCsrfToken();
+		
+		this.registerObservable = new NewRegisterObservable();
+		initObservers();
 	}
 
 	public static final SqlId ADD_NEW_USER = new SqlId("ADD_NEW_USER");
@@ -77,7 +82,10 @@ public final class RegisterAction extends ActionTemplateShowAndApply {
 		RegisterDAO dao = new RegisterDAO();
 		try {
 			dao.add(fRegister);
+
 			MailFacade.sendWelcomeMail(fRegister);
+			registerObservable.incrementTotalNewRegisters();
+
 			addMessage("Thank you! It works! A message was sent to e-mail "
 					+ fRegister.getEmail().getRawString() + "!");
 		} catch (DuplicateException ex) {
@@ -86,9 +94,14 @@ public final class RegisterAction extends ActionTemplateShowAndApply {
 			addError(ex.getMessage());
 		}
 	}
+	
+	private void initObservers(){
+		this.registerObservable.addObserver(new MarketingObserver());
+	}
 
 	// PRIVATE //
 	private Register fRegister;
+	private final NewRegisterObservable registerObservable;
 	private static final ResponsePage FORWARD = new ResponsePage("Register",
 			"view.jsp", RegisterAction.class);
 	private static final ResponsePage REDIRECT = new ResponsePage(

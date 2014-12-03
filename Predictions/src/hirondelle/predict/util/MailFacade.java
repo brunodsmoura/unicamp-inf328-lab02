@@ -6,6 +6,8 @@ import hirondelle.predict.util.exception.MailException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -46,6 +48,28 @@ public final class MailFacade {
 		welcomeMessage.append(System.lineSeparator()).append(System.lineSeparator());
 		
 		sendMail(aRegister.getEmail().getRawString(), "Share your Predictions – Welcome", welcomeMessage.toString());
+	}
+	
+	public static void sendRegistersMarketingMail(int totalRegisters)
+		throws MailException {
+		
+		StringBuilder message = new StringBuilder("Olá Equipe de Marketing, ");
+		message.append(System.lineSeparator()).append(System.lineSeparator());
+
+		message.append("Segue abaixo o seu relatório de novos cadastros no sistema Share Your Predictions.");
+		message.append(System.lineSeparator()).append(System.lineSeparator());
+
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, new Locale("pt", "BR"));
+		message.append("Os dados foram coletados no dia ");
+		message.append(dateFormat.format(new Date()));
+		message.append(" e o total de novos registros é de ");
+		message.append(totalRegisters).append(".");
+
+		message.append(System.lineSeparator()).append(System.lineSeparator());
+
+		message.append("Equipe Share Your Predictions.");
+
+		sendMail("inf328-lab02-marketing@yopmail.com", "Overview - New Registers Amount", message.toString());
 	}
 	
 	private static void sendMail(String to, String subject, String message) 
