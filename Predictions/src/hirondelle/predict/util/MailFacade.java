@@ -60,7 +60,7 @@ public final class MailFacade {
 		message.append(System.lineSeparator()).append(System.lineSeparator());
 
 		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, new Locale("pt", "BR"));
-		message.append("Os dados foram coletados no dia ");
+		message.append("Os dados foram coletados no ");
 		message.append(dateFormat.format(new Date()));
 		message.append(" e o total de novos registros é de ");
 		message.append(totalRegisters).append(".");

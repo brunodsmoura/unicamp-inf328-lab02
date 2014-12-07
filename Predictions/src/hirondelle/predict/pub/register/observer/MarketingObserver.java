@@ -10,6 +10,16 @@ import hirondelle.predict.util.exception.MailException;
 public class MarketingObserver implements RegisterObserver {
 
 	@Override
+	public boolean equals(Object object) {
+		return (object instanceof MarketingObserver);
+	}
+
+	@Override
+	public int hashCode() {
+		return 31;
+	}
+
+	@Override
 	public void update(NewRegisterObservable observable) throws MailException {
 		if(observable == null) 
 			throw new IllegalArgumentException("Observable must not be null");

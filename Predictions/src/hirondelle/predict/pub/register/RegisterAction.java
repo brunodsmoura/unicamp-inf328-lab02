@@ -32,8 +32,6 @@ public final class RegisterAction extends ActionTemplateShowAndApply {
 	public RegisterAction(RequestParser aRequestParser) {
 		super(FORWARD, REDIRECT, aRequestParser);
 		createSessionAndCsrfToken();
-		
-		this.registerObservable = new NewRegisterObservable();
 		initObservers();
 	}
 
@@ -84,7 +82,7 @@ public final class RegisterAction extends ActionTemplateShowAndApply {
 			dao.add(fRegister);
 
 			MailFacade.sendWelcomeMail(fRegister);
-			registerObservable.incrementTotalNewRegisters();
+			NewRegisterObservable.getInstance().incrementTotalNewRegisters();
 
 			addMessage("Thank you! It works! A message was sent to e-mail "
 					+ fRegister.getEmail().getRawString() + "!");
@@ -96,12 +94,11 @@ public final class RegisterAction extends ActionTemplateShowAndApply {
 	}
 	
 	private void initObservers(){
-		this.registerObservable.addObserver(new MarketingObserver());
+		NewRegisterObservable.getInstance().addObserver(new MarketingObserver());
 	}
 
 	// PRIVATE //
 	private Register fRegister;
-	private final NewRegisterObservable registerObservable;
 	private static final ResponsePage FORWARD = new ResponsePage("Register",
 			"view.jsp", RegisterAction.class);
 	private static final ResponsePage REDIRECT = new ResponsePage(

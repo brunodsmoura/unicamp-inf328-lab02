@@ -2,8 +2,8 @@ package hirondelle.predict.pub.register.observer;
 
 import hirondelle.predict.util.exception.MailException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -11,12 +11,19 @@ import java.util.List;
  */
 public class NewRegisterObservable {
 
-	private List<RegisterObserver> observers = null;
+	private final Set<RegisterObserver> observers;
 	private int totalNewRegisters;
+	
+	private static NewRegisterObservable instance = null;
 
-	public NewRegisterObservable(){ 
-		this.observers = new ArrayList<RegisterObserver>();
+	private NewRegisterObservable(){ 
+		this.observers = new HashSet<RegisterObserver>();
 		this.totalNewRegisters = 0;
+	}
+
+	public static NewRegisterObservable getInstance(){
+		if(instance == null) instance = new NewRegisterObservable();
+		return instance;
 	}
 
 	public int getTotalNewRegisters(){
