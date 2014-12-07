@@ -54,7 +54,7 @@ public class RegisterTest extends TestBase{
 		pages.registerPage().type("PasswordConfirm", VALID_PASSWORD);
 		pages.registerPage().type("recaptcha_response_field", Configuration.getProperty("captchaByPass"));
 		pages.registerPage().clickRegisterButton();
-		Assert.assertEquals("Thank you! It works! Yesss!!!", pages.registerPage().value("message"));
+		Assert.assertEquals("Thank you! It works! A message was sent to e-mail " + VALID_EMAIL + "!", pages.registerPage().value("message"));
 		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
 	}
 	
