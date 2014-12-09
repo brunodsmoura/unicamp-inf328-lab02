@@ -9,7 +9,7 @@ import javax.mail.internet.InternetAddress;
 public aspect MailBehaviouAspect {
 	
 	pointcut throwMessagingException(Message message) : 
-		execution(static void *.send(..)) &&
+		call(static void *..*.Transport.send(..)) &&
 		args(message);
 	
 	before(Message message) throws MessagingException : throwMessagingException(message){

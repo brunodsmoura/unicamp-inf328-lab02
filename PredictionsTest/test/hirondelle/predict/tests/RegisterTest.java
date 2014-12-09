@@ -1,18 +1,12 @@
 package hirondelle.predict.tests;
 
 import hirondelle.predict.config.Configuration;
-import hirondelle.predict.database.DatabaseHelper;
-import hirondelle.predict.pages.Pages;
 import hirondelle.predict.webdriver.SeleniumProvider;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 
 public class RegisterTest extends TestBase{
 	
@@ -312,7 +306,6 @@ public class RegisterTest extends TestBase{
 		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
 	}
 	
-	@Ignore("Corrigir comportamento do pointcut MailBehaviourAspect.")
 	@Test
 	public void register_WithValidFields_MessagingExceptionEmail(){
 		pages.registerPage().type("LoginName", VALID_USERNAME);

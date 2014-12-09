@@ -58,8 +58,8 @@ public aspect ByPassMailFacadeValuesAspect {
 				return;
 			}
 		}
-		
-		proceed(to, subject, "");
+
+		proceed(to, subject, message);
 	}
 
 }
