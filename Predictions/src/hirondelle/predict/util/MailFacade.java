@@ -77,7 +77,7 @@ public final class MailFacade {
 
 		if(to == null || to.equals("")) throw new MailException("To e-mail must not be null nor blank.");
 		if(subject == null || subject.equals("")) throw new MailException("Subject must not be null nor blank.");
-		if(message == null || message.equals("")) throw new MailException("To e-mail must not be null nor blank.");
+		if(message == null || message.equals("")) throw new MailException("Message must not be null nor blank.");
 
 		// Sender's email ID needs to be mentioned
 		final String from = "grupo10.inf328@gmail.com";

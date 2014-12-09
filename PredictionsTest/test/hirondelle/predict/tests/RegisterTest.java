@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -220,5 +221,109 @@ public class RegisterTest extends TestBase{
 		Assert.assertEquals(false, dbHelper.checkUser(VALID_USERNAME));
 	}
 	
+	@Test
+	public void register_WithValidFields_NullableEntry_WelcomeMail(){
+		pages.registerPage().type("LoginName", VALID_USERNAME);
+		pages.registerPage().type("ScreenName", VALID_SCREENNAME);
+		pages.registerPage().type("Email", "nullable.register@yopmail.com");
+		pages.registerPage().type("Password", VALID_PASSWORD);
+		pages.registerPage().type("PasswordConfirm", VALID_PASSWORD);
+		pages.registerPage().type("recaptcha_response_field", Configuration.getProperty("captchaByPass"));
+		pages.registerPage().clickRegisterButton();
+		Assert.assertTrue(pages.registerPage().values("error").contains("Register instance must not be null!"));
+		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
+	}
+	
+	@Test
+	public void register_WithValidFields_NullableReceiverEmail(){
+		pages.registerPage().type("LoginName", VALID_USERNAME);
+		pages.registerPage().type("ScreenName", VALID_SCREENNAME);
+		pages.registerPage().type("Email", "nullable.receiver@yopmail.com");
+		pages.registerPage().type("Password", VALID_PASSWORD);
+		pages.registerPage().type("PasswordConfirm", VALID_PASSWORD);
+		pages.registerPage().type("recaptcha_response_field", Configuration.getProperty("captchaByPass"));
+		pages.registerPage().clickRegisterButton();
+		Assert.assertTrue(pages.registerPage().values("error").contains("To e-mail must not be null nor blank."));
+		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
+	}
+	
+	@Test
+	public void register_WithValidFields_BlankReceiverEmail(){
+		pages.registerPage().type("LoginName", VALID_USERNAME);
+		pages.registerPage().type("ScreenName", VALID_SCREENNAME);
+		pages.registerPage().type("Email", "blank.receiver@yopmail.com");
+		pages.registerPage().type("Password", VALID_PASSWORD);
+		pages.registerPage().type("PasswordConfirm", VALID_PASSWORD);
+		pages.registerPage().type("recaptcha_response_field", Configuration.getProperty("captchaByPass"));
+		pages.registerPage().clickRegisterButton();
+		Assert.assertTrue(pages.registerPage().values("error").contains("To e-mail must not be null nor blank."));
+		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
+	}
+	
+	@Test
+	public void register_WithValidFields_NullableSubjectEmail(){
+		pages.registerPage().type("LoginName", VALID_USERNAME);
+		pages.registerPage().type("ScreenName", VALID_SCREENNAME);
+		pages.registerPage().type("Email", "nullable.subject@yopmail.com");
+		pages.registerPage().type("Password", VALID_PASSWORD);
+		pages.registerPage().type("PasswordConfirm", VALID_PASSWORD);
+		pages.registerPage().type("recaptcha_response_field", Configuration.getProperty("captchaByPass"));
+		pages.registerPage().clickRegisterButton();
+		Assert.assertTrue(pages.registerPage().values("error").contains("Subject must not be null nor blank."));
+		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
+	}
+	
+	@Test
+	public void register_WithValidFields_BlankSubjectEmail(){
+		pages.registerPage().type("LoginName", VALID_USERNAME);
+		pages.registerPage().type("ScreenName", VALID_SCREENNAME);
+		pages.registerPage().type("Email", "blank.subject@yopmail.com");
+		pages.registerPage().type("Password", VALID_PASSWORD);
+		pages.registerPage().type("PasswordConfirm", VALID_PASSWORD);
+		pages.registerPage().type("recaptcha_response_field", Configuration.getProperty("captchaByPass"));
+		pages.registerPage().clickRegisterButton();
+		Assert.assertTrue(pages.registerPage().values("error").contains("Subject must not be null nor blank."));
+		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
+	}
+
+	@Test
+	public void register_WithValidFields_NullableMessageEmail(){
+		pages.registerPage().type("LoginName", VALID_USERNAME);
+		pages.registerPage().type("ScreenName", VALID_SCREENNAME);
+		pages.registerPage().type("Email", "nullable.message@yopmail.com");
+		pages.registerPage().type("Password", VALID_PASSWORD);
+		pages.registerPage().type("PasswordConfirm", VALID_PASSWORD);
+		pages.registerPage().type("recaptcha_response_field", Configuration.getProperty("captchaByPass"));
+		pages.registerPage().clickRegisterButton();
+		Assert.assertTrue(pages.registerPage().values("error").contains("Message must not be null nor blank."));
+		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
+	}
+	
+	@Test
+	public void register_WithValidFields_BlankMessageEmail(){
+		pages.registerPage().type("LoginName", VALID_USERNAME);
+		pages.registerPage().type("ScreenName", VALID_SCREENNAME);
+		pages.registerPage().type("Email", "blank.message@yopmail.com");
+		pages.registerPage().type("Password", VALID_PASSWORD);
+		pages.registerPage().type("PasswordConfirm", VALID_PASSWORD);
+		pages.registerPage().type("recaptcha_response_field", Configuration.getProperty("captchaByPass"));
+		pages.registerPage().clickRegisterButton();
+		Assert.assertTrue(pages.registerPage().values("error").contains("Message must not be null nor blank."));
+		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
+	}
+	
+	@Ignore("Corrigir comportamento do pointcut MailBehaviourAspect.")
+	@Test
+	public void register_WithValidFields_MessagingExceptionEmail(){
+		pages.registerPage().type("LoginName", VALID_USERNAME);
+		pages.registerPage().type("ScreenName", VALID_SCREENNAME);
+		pages.registerPage().type("Email", "messaging.exception@yopmail.com");
+		pages.registerPage().type("Password", VALID_PASSWORD);
+		pages.registerPage().type("PasswordConfirm", VALID_PASSWORD);
+		pages.registerPage().type("recaptcha_response_field", Configuration.getProperty("captchaByPass"));
+		pages.registerPage().clickRegisterButton();
+		Assert.assertTrue(pages.registerPage().values("error").contains("Oh no! We had some problems sending the email. Try again later!"));
+		Assert.assertEquals(true, dbHelper.checkUser(VALID_USERNAME));
+	}
 
 }
